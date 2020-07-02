@@ -7,7 +7,8 @@ const app = express()
 // connect to mongoDB
 mongoose.connect('mongodb://localhost/checkout',{ useUnifiedTopology: true, 
 useNewUrlParser: true })
-// mongoose.Promise = global.Promise
+
+app.use(express.static('public'))
 
 app.use(bodyParser.json())
 app.use('/api',require('./routes/api'))

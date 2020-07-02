@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout page</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+    <h1>Checkout page</h1>
+    <div id="checkoutItems"></div>
+
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://unpkg.com/react@15/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+
+    <!-- Create React Component -->
+    <script type="text/babel">
+        const CheckOutItems = React.createClass({
+            getInitialState: function () {
+                return ({
+                    checkouts: [{ imgsrc: 'cake1', name: 'Cake1', price: 10 },
+                    { imgsrc: 'cake2', name: 'Cake2', price: 20 }]
+                })
+            },
+            componentDidMount() {
+                fetch('/api/items').then((data) => {
+                    return data.json()
+                }).then(json => {
+                    this.setState({
+                        checkouts: json
+                    })
+                })
+            },
+            render() {
+                let checkouts = this.state.checkouts
+                checkouts = checkouts.map((item, index) => {
+                    return <div key={index}>
+                        <li>{item.imgsrc}</li>
+                        <li>{item.name}</li>
+                        <li>{item.price}</li>
+                    </div>
+                })
+                return (
+                    <div>
+                        <h1>{checkouts}</h1>
+                    </div>
+
+                )
+
+            }
+        })
+        ReactDOM.render(<CheckOutItems />, document.getElementById('checkoutItems'))
+    </script>
+
+</body>
+
+</html>
