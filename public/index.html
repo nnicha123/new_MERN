@@ -9,8 +9,7 @@
 </head>
 
 <body>
-    <h1>Checkout page</h1>
-    <div id="checkoutItems"></div>
+    <div id="checkoutItems" style="margin: 0;padding: 0;"></div>
 
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <script src="https://unpkg.com/react@15/dist/react.js"></script>
@@ -21,8 +20,7 @@
         const CheckOutItems = React.createClass({
             getInitialState: function () {
                 return ({
-                    checkouts: [{ imgsrc: 'cake1', name: 'Cake1', price: 10 },
-                    { imgsrc: 'cake2', name: 'Cake2', price: 20 }]
+                    checkouts: []
                 })
             },
             componentDidMount() {
@@ -36,18 +34,26 @@
             },
             render() {
                 let checkouts = this.state.checkouts
-                checkouts = checkouts.map((item, index) => {
-                    return <div key={index}>
-                        <li>{item.imgsrc}</li>
-                        <li>{item.name}</li>
-                        <li>{item.price}</li>
+                checkouts = checkouts.map((el, index) => {
+                    return <div className="arrangeLikes" key={index}>
+                        <img src={el.imgsrc} style={{ height: '100px', width: '100px' }} />
+                        <div className="favouriteStart">
+                            <div>{el.name}</div>
+                            <div>${el.price}</div>
+                        </div>
+                        <div className="favouriteEnd" onClick={() => this.removeLike(index)}>
+                            <div>Remove</div>
+                        </div>
                     </div>
                 })
-                return (
-                    <div>
-                        <h1>{checkouts}</h1>
-                    </div>
 
+                return (
+                    <div className="favouritesOuterDiv">
+                        <div className="favourites">
+                            <h3>CHECKOUT</h3>
+                            {checkouts}
+                        </div>
+                    </div>
                 )
 
             }
