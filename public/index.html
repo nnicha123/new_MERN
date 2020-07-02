@@ -24,6 +24,9 @@
                     total: 0
                 })
             },
+            calculateTotal() {
+
+            },
             componentDidMount() {
                 fetch('/api/items').then((data) => {
                     return data.json()
@@ -49,6 +52,11 @@
                         this.setState({
                             checkouts: json
                         })
+                        let total = 0;
+                        for (let i = 0; i < this.state.checkouts.length; i++) {
+                            total += this.state.checkouts[i].price
+                        }
+                        this.setState({ total: total })
                     })
                 })
 
