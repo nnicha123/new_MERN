@@ -20,7 +20,8 @@
         const CheckOutItems = React.createClass({
             getInitialState: function () {
                 return ({
-                    checkouts: []
+                    checkouts: [],
+                    total: 0
                 })
             },
             componentDidMount() {
@@ -30,10 +31,32 @@
                     this.setState({
                         checkouts: json
                     })
+                    let total = 0;
+                    for (let i = 0; i < this.state.checkouts.length; i++) {
+                        total += this.state.checkouts[i].price
+                    }
+                    this.setState({ total: total })
                 })
+
+            },
+            removeLike(id) {
+                fetch('/api/items/' + id, { method: 'delete' }).then(data => {
+                    return data.json()
+                }).then(() => {
+                    fetch('/api/items').then((data) => {
+                        return data.json()
+                    }).then(json => {
+                        this.setState({
+                            checkouts: json
+                        })
+                    })
+                })
+
             },
             render() {
+                let total
                 let checkouts = this.state.checkouts
+
                 checkouts = checkouts.map((el, index) => {
                     return <div className="arrangeLikes" key={index}>
                         <img src={el.imgsrc} style={{ height: '100px', width: '100px' }} />
@@ -41,7 +64,7 @@
                             <div>{el.name}</div>
                             <div>${el.price}</div>
                         </div>
-                        <div className="favouriteEnd" onClick={() => this.removeLike(index)}>
+                        <div className="favouriteEnd" onClick={() => this.removeLike(el._id)}>
                             <div>Remove</div>
                         </div>
                     </div>
@@ -52,7 +75,14 @@
                         <div className="favourites">
                             <h3>CHECKOUT</h3>
                             {checkouts}
+                            <div className="totalPrice">Total :
+                                <div className="Proceed">
+                                    <span>${this.state.total}</span>
+                                    <button className="ProceedButton">Proceed</button>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                 )
 

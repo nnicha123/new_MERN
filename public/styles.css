@@ -59,7 +59,21 @@
     color: white;
     font-weight: bold;
 }
+.ProceedButton{
+    padding: 10px;
+    background-color: #490e24;
+    color: white;
+    font-weight: bold;
+    border: none;
+    margin-left: 40px;
+}
 .favouriteEnd:hover{
     opacity: 0.6;
     cursor: pointer;
+}
+.totalPrice{
+    font-size: 25px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
 }
