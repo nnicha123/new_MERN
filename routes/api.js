@@ -3,7 +3,9 @@ const router = express.Router()
 const CheckOut = require('../models/checkout')
 
 router.get('/items',(req,res) => {
-    res.send({type:"GET"})
+    CheckOut.find({}).then((checkout) => {
+        res.send(checkout)
+    })
 })
 router.post('/items',(req,res) => {
     
@@ -12,10 +14,16 @@ router.post('/items',(req,res) => {
     })
 })
 router.put('/items/:id',(req,res) => {
-    res.send({type:"PUT"})
+    CheckOut.findByIdAndUpdate({_id:req.params.id},req.body).then(() => {
+        CheckOut.findOne({_id:req.params.id}).then((checkout) => {
+            res.send(checkout)
+        })
+    })
 })
 router.delete('/items/:id',(req,res) => {
-    res.send({type:"DELETE"})
+    CheckOut.findByIdAndRemove({_id:req.params.id}).then((checkout) => {
+        res.send(checkout)
+    })
 })
 
 module.exports = router
